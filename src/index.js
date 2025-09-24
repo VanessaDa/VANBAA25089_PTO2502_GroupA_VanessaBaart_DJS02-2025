@@ -28,3 +28,21 @@ const grid = document.getElementById("grid");
 const dialog = document.getElementById("podcastModal");
 const body = document.getElementById("modalBody");
 const closeBtn = dialog.querySelector(".close");
+
+/** Render all podcast previews into the grid. */
+function render() {
+  grid.innerHTML = "";
+  previews.forEach((p) => {
+    const el = document.createElement("podcast-preview");
+    el.podcast = {
+      podcastId: p.id,
+      title: p.title,
+      image: p.image,
+      seasons: p.seasons,
+      genres: genreNames(p.genres),
+      updated: p.updated,
+    };
+    grid.appendChild(el);
+  });
+}
+render();
