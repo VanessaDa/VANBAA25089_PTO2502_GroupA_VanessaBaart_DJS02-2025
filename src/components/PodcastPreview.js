@@ -84,4 +84,33 @@
         }
       });
     }
-      
+        // Property API (maps to attributes to keep component stateless)
+    set podcast(val) {
+      if (!val || typeof val !== "object") return;
+      const map = {
+        "podcast-id": val.podcastId ?? val.id,
+        title: val.title,
+        image: val.image,
+        seasons: val.seasons,
+        genres: Array.isArray(val.genres)
+          ? JSON.stringify(val.genres)
+          : val.genres,
+        updated:
+          val.updated instanceof Date ? val.updated.toISOString() : val.updated,
+      };
+      Object.entries(map).forEach(([k, v]) => {
+        if (v !== undefined && v !== null) this.setAttribute(k, String(v));
+      });
+    }
+    get podcast() {
+      return this._snapshotFromAttrs();
+    }
+
+    attributeChangedCallback() {
+      this._render();
+    }
+    connectedCallback() {
+      this._render();
+    }
+
+
