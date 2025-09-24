@@ -165,3 +165,27 @@
         span.textContent = g;
         tags.appendChild(span);
       });
+     // Human-readable updated
+      updated.textContent = this._formatUpdated(data.updated);
+    }
+    /**
+     * Formats the updated date into a human-readable string.
+     * @param {string|Date} val - The date value to format.
+     * @returns {string} Human-readable date string.
+     * @private
+     */
+    _formatUpdated(val) {
+      if (!val) return "";
+      const d = new Date(val);
+      if (Number.isNaN(d.getTime())) return "";
+      const now = new Date();
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const diffDays = Math.floor((now - d) / msPerDay);
+      if (diffDays <= 0) return "Updated today";
+      if (diffDays === 1) return "Updated 1 day ago";
+      if (diffDays < 7) return `Updated ${diffDays} days ago`;
+      const opts = { year: "numeric", month: "short", day: "numeric" };
+      return `Updated ${d.toLocaleDateString(undefined, opts)}`;
+    }
+      
+    
