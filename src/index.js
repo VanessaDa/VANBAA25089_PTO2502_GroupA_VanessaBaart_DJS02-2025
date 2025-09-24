@@ -46,3 +46,32 @@ function render() {
   });
 }
 render();
+// --- Modal wiring ---------------------------------------------------------
+document.addEventListener("podcast-select", (e) => {
+  const { podcast } = e.detail;
+  openModal(dialog, body, { previews, seasonsById, friendlyUpdated }, podcast);
+});
+
+/**
+ * Closes the podcast modal dialog.
+ * @param {Event} [e]
+ */
+const closeDialog = (e) => {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  if (dialog.open) dialog.close();
+};
+
+closeBtn.addEventListener("click", closeDialog);
+dialog.addEventListener("click", (e) => {
+  if (e.target === dialog) closeDialog(e);
+});
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && dialog.open) closeDialog(e);
+});
+dialog.addEventListener("cancel", (e) => {
+  e.preventDefault();
+  closeDialog(e);
+});
