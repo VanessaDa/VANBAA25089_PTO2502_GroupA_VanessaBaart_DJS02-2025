@@ -1,11 +1,11 @@
-/** <podcast-preview>
+/**
+ * <podcast-preview>
  * Stateless Web Component for a podcast card.
  * @fires {CustomEvent<'podcast-select'>} when the card is activated.
  * @property {{podcastId:string,title:string,image?:string,seasons?:number,genres?:string[],updated?:string|Date}} podcast
  */
 (function () {
   "use strict";
-
   const template = document.createElement("template");
   template.innerHTML = `
     <style>
@@ -19,12 +19,16 @@
         cursor: pointer;
         outline: none;
       }
-          :host(:focus-visible) { box-shadow: 0 0 0 3px #c7d2fe; }
+      :host(:focus-visible) {
+        box-shadow: 0 0 0 3px #c7d2fe;
+      }
       :host(:hover) {
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       }
-      .wrap { padding: 14px; }
+      .wrap {
+        padding: 14px;
+      }
       .cover {
         width: 100%;
         aspect-ratio: 16 / 12;
@@ -38,11 +42,37 @@
         font: 600 1rem/1.25 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
         color: #0f172a;
       }
-      .meta { display:flex; align-items:center; gap:6px; color:#475569; font-size:.875rem; }
-      .calendar { width:1em; height:1em; display:inline-block; }
-      .tags { margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; }
-      .tag { font-size:.75rem; padding:4px 8px; border-radius:999px; background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; }
-      .updated { margin-top:8px; color:#64748b; font-size:.8125rem; }
+      .meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #475569;
+        font-size: .875rem;
+      }
+      .calendar {
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+      }
+      .tags {
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .tag {
+        font-size: .75rem;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+      }
+      .updated {
+        margin-top: 8px;
+        color: #64748b;
+        font-size: .8125rem;
+      }
     </style>
     <div class="wrap" part="container" role="button" tabindex="0" aria-label="Podcast preview">
       <img class="cover" part="cover" />
@@ -56,8 +86,9 @@
       <div class="tags" part="tags"></div>
       <div class="updated" part="updated"></div>
     </div>
-  ;
-   class PodcastPreview extends HTMLElement {
+  `;
+
+  class PodcastPreview extends HTMLElement {
     static get observedAttributes() {
       return ["podcast-id", "title", "image", "seasons", "genres", "updated"];
     }
@@ -84,7 +115,8 @@
         }
       });
     }
-        // Property API (maps to attributes to keep component stateless)
+
+    // Property API (maps to attributes to keep component stateless)
     set podcast(val) {
       if (!val || typeof val !== "object") return;
       const map = {
@@ -112,7 +144,8 @@
     connectedCallback() {
       this._render();
     }
- _snapshotFromAttrs() {
+
+    _snapshotFromAttrs() {
       const genresAttr = this.getAttribute("genres");
       let genres = [];
       if (genresAttr) {
@@ -135,6 +168,7 @@
         updated: this.getAttribute("updated") || "",
       };
     }
+
     /**
      * Updates the component UI based on current attributes.
      * @private
@@ -142,7 +176,6 @@
     _render() {
       const data = this._snapshotFromAttrs();
       const { cover, title, seasons, tags, updated } = this._els;
-
       // Cover + alt
       cover.alt = data.title ? `${data.title} cover` : "Podcast cover";
       cover.src = data.image || this._placeholder();
@@ -150,12 +183,10 @@
       cover.addEventListener("error", () => {
         cover.src = this._placeholder();
       });
-
       // Title + seasons
       title.textContent = data.title || "Untitled Podcast";
       const count = Number(data.seasons) || 0;
       seasons.textContent = `${count} ${count === 1 ? "season" : "seasons"}`;
-
       // Genres
       tags.innerHTML = "";
       const genreList = Array.isArray(data.genres) ? data.genres : [];
@@ -165,9 +196,10 @@
         span.textContent = g;
         tags.appendChild(span);
       });
-     // Human-readable updated
+      // Human-readable updated
       updated.textContent = this._formatUpdated(data.updated);
     }
+
     /**
      * Formats the updated date into a human-readable string.
      * @param {string|Date} val - The date value to format.
@@ -187,7 +219,8 @@
       const opts = { year: "numeric", month: "short", day: "numeric" };
       return `Updated ${d.toLocaleDateString(undefined, opts)}`;
     }
-     /**
+
+    /**
      * Emits a 'podcast-select' event with the current podcast data.
      * @private
      */
@@ -201,6 +234,7 @@
         })
       );
     }
+
     /**
      * Returns a placeholder image data URL for the cover.
      * @returns {string} Data URL of the SVG placeholder.
@@ -224,6 +258,3 @@
     customElements.define("podcast-preview", PodcastPreview);
   }
 })();
-
-
-    
