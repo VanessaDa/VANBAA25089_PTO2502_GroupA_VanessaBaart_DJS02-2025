@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>PodcastApp • DJS02</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span>PodcastApp</span>
+      </div>
+    </header>
+    <main class="grid" id="grid"></main>
+    <dialog id="podcastModal" aria-modal="true">
+      <button type="button" class="close" aria-label="Close">×</button>
+      <div class="modal" id="modalBody"></div>
+    </dialog>
+    <!-- Modal dialog for displaying podcast details, with a close button and content area -->
+    <script type="module" src="./src/index.js"></script>
+    <!-- Loads the main JavaScript module for app functionality -->
+  </body>
+</html>
