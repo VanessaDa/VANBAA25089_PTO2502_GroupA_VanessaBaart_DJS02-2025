@@ -187,5 +187,43 @@
       const opts = { year: "numeric", month: "short", day: "numeric" };
       return `Updated ${d.toLocaleDateString(undefined, opts)}`;
     }
-      
+     /**
+     * Emits a 'podcast-select' event with the current podcast data.
+     * @private
+     */
+    _emitSelect() {
+      const podcast = this._snapshotFromAttrs();
+      this.dispatchEvent(
+        new CustomEvent("podcast-select", {
+          bubbles: true,
+          composed: true,
+          detail: { podcast },
+        })
+      );
+    }
+    /**
+     * Returns a placeholder image data URL for the cover.
+     * @returns {string} Data URL of the SVG placeholder.
+     * @private
+     */
+    _placeholder() {
+      const svg = encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'>
+          <rect width='400' height='300' rx='16' fill='#cbd5e1'/>
+          <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'
+            font-family='system-ui,Segoe UI,Roboto' font-size='20' fill='#334155'>
+            Podcast Cover
+          </text>
+        </svg>`
+      );
+      return `data:image/svg+xml;charset=utf8,${svg}`;
+    }
+  }
+
+  if (!customElements.get("podcast-preview")) {
+    customElements.define("podcast-preview", PodcastPreview);
+  }
+})();
+
+
     
