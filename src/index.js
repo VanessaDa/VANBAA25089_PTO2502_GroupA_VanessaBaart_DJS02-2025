@@ -15,3 +15,16 @@ const seasonsById = new Map(
     .filter((s) => Array.isArray(s.seasonDetails))
     .map((s) => [s.id, s.seasonDetails])
 );
+/**
+ * Maps an array of genre IDs to their names.
+ * @param {Array<string>} ids
+ * @returns {Array<string>}
+ */
+const genreNames = (ids = []) =>
+  ids.map((id) => genreById.get(id)).filter(Boolean);
+
+// --- UI refs ---------------------------------------------------------------
+const grid = document.getElementById("grid");
+const dialog = document.getElementById("podcastModal");
+const body = document.getElementById("modalBody");
+const closeBtn = dialog.querySelector(".close");
