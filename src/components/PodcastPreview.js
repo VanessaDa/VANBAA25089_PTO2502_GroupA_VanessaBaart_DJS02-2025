@@ -44,3 +44,17 @@
       .tag { font-size:.75rem; padding:4px 8px; border-radius:999px; background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; }
       .updated { margin-top:8px; color:#64748b; font-size:.8125rem; }
     </style>
+    <div class="wrap" part="container" role="button" tabindex="0" aria-label="Podcast preview">
+      <img class="cover" part="cover" />
+      <div class="title" part="title"></div>
+      <div class="meta" part="meta">
+        <svg class="calendar" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M7 2h2v2h6V2h2v2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V2zm13 8H4v10h16V10zM4 8h16V6H4v2z"/>
+        </svg>
+        <span class="seasons" part="seasons"></span>
+      </div>
+      <div class="tags" part="tags"></div>
+      <div class="updated" part="updated"></div>
+    </div>
+  ;
+  
