@@ -112,5 +112,27 @@
     connectedCallback() {
       this._render();
     }
-
+ _snapshotFromAttrs() {
+      const genresAttr = this.getAttribute("genres");
+      let genres = [];
+      if (genresAttr) {
+        try {
+          const parsed = JSON.parse(genresAttr);
+          if (Array.isArray(parsed)) genres = parsed;
+        } catch (_) {
+          genres = String(genresAttr)
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+        }
+      }
+      return {
+        podcastId: this.getAttribute("podcast-id") || "",
+        title: this.getAttribute("title") || "",
+        image: this.getAttribute("image") || "",
+        seasons: this.getAttribute("seasons") || 0,
+        genres,
+        updated: this.getAttribute("updated") || "",
+      };
+    }
 
