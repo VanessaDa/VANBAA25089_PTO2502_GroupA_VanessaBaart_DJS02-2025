@@ -57,4 +57,31 @@
       <div class="updated" part="updated"></div>
     </div>
   ;
-  
+   class PodcastPreview extends HTMLElement {
+    static get observedAttributes() {
+      return ["podcast-id", "title", "image", "seasons", "genres", "updated"];
+    }
+
+    constructor() {
+      super();
+      this.attachShadow({ mode: "open" }).appendChild(
+        template.content.cloneNode(true)
+      );
+      this._els = {
+        root: this.shadowRoot.querySelector(".wrap"),
+        cover: this.shadowRoot.querySelector(".cover"),
+        title: this.shadowRoot.querySelector(".title"),
+        seasons: this.shadowRoot.querySelector(".seasons"),
+        tags: this.shadowRoot.querySelector(".tags"),
+        updated: this.shadowRoot.querySelector(".updated"),
+      };
+      const fire = () => this._emitSelect();
+      this._els.root.addEventListener("click", fire);
+      this._els.root.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          fire();
+        }
+      });
+    }
+      
