@@ -135,4 +135,33 @@
         updated: this.getAttribute("updated") || "",
       };
     }
+    /**
+     * Updates the component UI based on current attributes.
+     * @private
+     */
+    _render() {
+      const data = this._snapshotFromAttrs();
+      const { cover, title, seasons, tags, updated } = this._els;
 
+      // Cover + alt
+      cover.alt = data.title ? `${data.title} cover` : "Podcast cover";
+      cover.src = data.image || this._placeholder();
+      // Fallback if image fails
+      cover.addEventListener("error", () => {
+        cover.src = this._placeholder();
+      });
+
+      // Title + seasons
+      title.textContent = data.title || "Untitled Podcast";
+      const count = Number(data.seasons) || 0;
+      seasons.textContent = `${count} ${count === 1 ? "season" : "seasons"}`;
+
+      // Genres
+      tags.innerHTML = "";
+      const genreList = Array.isArray(data.genres) ? data.genres : [];
+      genreList.slice(0, 6).forEach((g) => {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = g;
+        tags.appendChild(span);
+      });
